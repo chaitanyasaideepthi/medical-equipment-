@@ -1,0 +1,146 @@
+.equipment-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  transition: 0.3s ease;
+}
+
+.equipment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+
+.equipment-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.equipment-card-header h3 {
+  margin: 0;
+  font-size: 19px;
+  color: #1f2937;
+}
+
+.equipment-id {
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* Status */
+
+.card-status {
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.card-status.available {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.card-status.in-use {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.card-status.under-maintenance {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+/* Details */
+
+.equipment-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.equipment-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.detail-label {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.detail-value {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Buttons */
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.card-edit-btn,
+.card-delete-btn {
+  flex: 1;
+  padding: 9px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card-edit-btn {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.card-edit-btn:hover {
+  background-color: #bfdbfe;
+}
+
+.card-delete-btn {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.card-delete-btn:hover {
+  background-color: #fecaca;
+}
+
+/* Mobile */
+
+@media (max-width: 500px) {
+  .equipment-card {
+    padding: 16px;
+  }
+
+  .equipment-card-header {
+    flex-direction: column;
+  }
+
+  .card-status {
+    align-self: flex-start;
+  }
+
+  .equipment-detail {
+    gap: 10px;
+  }
+}
