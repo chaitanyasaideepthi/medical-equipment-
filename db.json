@@ -1,0 +1,35 @@
+{
+  "equipment": [
+    {
+      "equipmentName": "x-ray",
+      "equipmentId": "EQ-003",
+      "category": "Laboratory",
+      "quantity": 1,
+      "location": "NELLORE",
+      "status": "Available",
+      "maintenanceDate": "2026-10-14",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "equipmentName": "Ventilator",
+      "equipmentId": "EQ-002",
+      "category": "Critical Care",
+      "quantity": 3,
+      "location": "ICU",
+      "status": "Under Maintenance",
+      "maintenanceDate": "2026-10-05"
+    },
+    {
+      "equipmentName": "ultrasound machine",
+      "equipmentId": "EQ-004",
+      "category": "Diagnostic",
+      "quantity": 1,
+      "location": "India, Karnataka, Bangalore",
+      "status": "Available",
+      "maintenanceDate": "2026-10-10",
+      "id": "DGYAs7Jlx3w"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
