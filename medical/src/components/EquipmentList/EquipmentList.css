@@ -2,16 +2,19 @@
   width: 95%;
   max-width: 1200px;
   margin: 30px auto;
+  background: white;
 }
 
 .equipment-list h2 {
   text-align: center;
   margin-bottom: 25px;
+  color: #222;
 }
 
 .table-container {
   width: 100%;
   overflow-x: auto;
+  background: white;
 }
 
 table {
@@ -19,6 +22,7 @@ table {
   border-collapse: separate;
   border-spacing: 0 12px;
   min-width: 1000px;
+  background: white;
 }
 
 thead {
@@ -30,6 +34,12 @@ th {
   padding: 14px 12px;
   text-align: left;
   font-weight: 600;
+  background: #2563eb;
+  color: white;
+}
+
+tbody {
+  background: white;
 }
 
 tbody tr {
@@ -42,6 +52,8 @@ td {
   border-top: 1px solid #e5e7eb;
   border-bottom: 1px solid #e5e7eb;
   white-space: nowrap;
+  background: white;
+  color: #222;
 }
 
 tbody tr td:first-child {
@@ -88,5 +100,25 @@ tbody tr td:last-child {
 @media (max-width: 768px) {
   .equipment-list {
     width: 92%;
+    background: white;
+  }
+
+  .table-container {
+    background: white;
+    overflow-x: auto;
+  }
+
+  table {
+    background: white;
+  }
+
+  tbody,
+  tbody tr,
+  td {
+    background: white;
+  }
+
+  td {
+    color: #222;
   }
 }
