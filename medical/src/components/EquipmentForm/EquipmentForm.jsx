@@ -1,226 +1,135 @@
 import { useState } from "react";
 import "./EquipmentForm.css";
 
-function EquipmentForm({ onSubmit, editingEquipment, onCancel }) {
-  const [formData, setFormData] = useState({
-    equipmentName: editingEquipment?.equipmentName || "",
-    equipmentId: editingEquipment?.equipmentId || "",
-    category: editingEquipment?.category || "",
-    quantity: editingEquipment?.quantity || "",
-    location: editingEquipment?.location || "",
-    status: editingEquipment?.status || "Available",
-    maintenanceDate: editingEquipment?.maintenanceDate || "",
-  });
+function EquipmentForm({ onSubmit }) {
+  const [equipmentName, setEquipmentName] = useState("");
+  const [equipmentId, setEquipmentId] = useState("");
+  const [category, setCategory] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [location, setLocation] = useState("");
+  const [status, setStatus] = useState("Available");
+  const [maintenanceDate, setMaintenanceDate] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const resetForm = () => {
-    setFormData({
-      equipmentName: "",
-      equipmentId: "",
-      category: "",
-      quantity: "",
-      location: "",
-      status: "Available",
-      maintenanceDate: "",
-    });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      !formData.equipmentName ||
-      !formData.equipmentId ||
-      !formData.category ||
-      !formData.quantity ||
-      !formData.location ||
-      !formData.maintenanceDate
-    ) {
-      alert("Please fill all fields.");
-      return;
-    }
-
     const equipmentData = {
-      equipmentName: formData.equipmentName,
-      equipmentId: formData.equipmentId,
-      category: formData.category,
-      quantity: Number(formData.quantity),
-      location: formData.location,
-      status: formData.status,
-      maintenanceDate: formData.maintenanceDate,
+      equipmentName,
+      equipmentId,
+      category,
+      quantity: Number(quantity),
+      location,
+      status,
+      maintenanceDate,
     };
 
-    try {
-      await onSubmit(equipmentData);
+    onSubmit(equipmentData);
 
-      resetForm();
-    } catch (error) {
-      console.error("Form submit error:", error);
-    }
-  };
-
-  const handleCancel = () => {
-    resetForm();
-
-    if (onCancel) {
-      onCancel();
-    }
+    setEquipmentName("");
+    setEquipmentId("");
+    setCategory("");
+    setQuantity("");
+    setLocation("");
+    setStatus("Available");
+    setMaintenanceDate("");
   };
 
   return (
-    <section className="equipment-form-section" id="add-equipment">
-      <div className="equipment-form-container">
+    <div className="equipment-form-container">
+      <h2>Add Equipment</h2>
 
-        <h2>
-          {editingEquipment
-            ? "Edit Medical Equipment"
-            : "Add Medical Equipment"}
-        </h2>
+      <form className="equipment-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Equipment Name</label>
+          <input
+            type="text"
+            value={equipmentName}
+            onChange={(e) => setEquipmentName(e.target.value)}
+            placeholder="Enter equipment name"
+            required
+          />
+        </div>
 
-        <p className="form-description">
-          {editingEquipment
-            ? "Update the equipment details below."
-            : "Enter the details of the new medical equipment."}
-        </p>
+        <div className="form-group">
+          <label>Equipment ID</label>
+          <input
+            type="text"
+            value={equipmentId}
+            onChange={(e) => setEquipmentId(e.target.value)}
+            placeholder="EQ-001"
+            required
+          />
+        </div>
 
-        <form className="equipment-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Category</label>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          >
+            <option value="">Select Category</option>
+            <option value="Diagnostic">Diagnostic</option>
+            <option value="Critical Care">Critical Care</option>
+            <option value="Laboratory">Laboratory</option>
+            <option value="Surgical">Surgical</option>
+          </select>
+        </div>
 
-          {/* Equipment Name */}
-          <div className="form-group">
-            <label>Equipment Name</label>
+        <div className="form-group">
+          <label>Quantity</label>
+          <input
+            type="number"
+            min="1"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            placeholder="Enter quantity"
+            required
+          />
+        </div>
 
-            <input
-              type="text"
-              name="equipmentName"
-              value={formData.equipmentName}
-              onChange={handleChange}
-              placeholder="Example: ECG Machine"
-            />
-          </div>
+        <div className="form-group">
+          <label>Location</label>
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="Enter location"
+            required
+          />
+        </div>
 
-          {/* Equipment ID */}
-          <div className="form-group">
-            <label>Equipment ID</label>
+        <div className="form-group">
+          <label>Status</label>
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="Available">Available</option>
+            <option value="In Use">In Use</option>
+            <option value="Under Maintenance">
+              Under Maintenance
+            </option>
+          </select>
+        </div>
 
-            <input
-              type="text"
-              name="equipmentId"
-              value={formData.equipmentId}
-              onChange={handleChange}
-              placeholder="Example: EQ-001"
-            />
-          </div>
+        <div className="form-group">
+          <label>Maintenance Date</label>
+          <input
+            type="date"
+            value={maintenanceDate}
+            onChange={(e) => setMaintenanceDate(e.target.value)}
+            required
+          />
+        </div>
 
-          {/* Category */}
-          <div className="form-group">
-            <label>Category</label>
-
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-            >
-              <option value="">Select Category</option>
-              <option value="Diagnostic">Diagnostic</option>
-              <option value="Critical Care">Critical Care</option>
-              <option value="Surgical">Surgical</option>
-              <option value="Monitoring">Monitoring</option>
-              <option value="Laboratory">Laboratory</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
-          {/* Quantity */}
-          <div className="form-group">
-            <label>Quantity</label>
-
-            <input
-              type="number"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              placeholder="Example: 2"
-              min="1"
-            />
-          </div>
-
-          {/* Location */}
-          <div className="form-group">
-            <label>Location</label>
-
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              placeholder="Example: Cardiology Department"
-            />
-          </div>
-
-          {/* Status */}
-          <div className="form-group">
-            <label>Status</label>
-
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-            >
-              <option value="Available">Available</option>
-              <option value="In Use">In Use</option>
-              <option value="Under Maintenance">
-                Under Maintenance
-              </option>
-            </select>
-          </div>
-
-          {/* Maintenance Date */}
-          <div className="form-group">
-            <label>Maintenance Date</label>
-
-            <input
-              type="date"
-              name="maintenanceDate"
-              value={formData.maintenanceDate}
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* Buttons */}
-          <div className="form-buttons">
-
-            {editingEquipment && (
-              <button
-                type="button"
-                className="cancel-btn"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            )}
-
-            <button
-              type="submit"
-              className="submit-btn"
-            >
-              {editingEquipment
-                ? "Update Equipment"
-                : "Add Equipment"}
-            </button>
-
-          </div>
-
-        </form>
-      </div>
-    </section>
+        <div className="form-buttons">
+          <button type="submit" className="save-btn">
+            Add Equipment
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 

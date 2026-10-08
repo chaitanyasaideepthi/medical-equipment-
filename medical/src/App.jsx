@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 
 import Navbar from "./components/Navbar/Navbar";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -17,114 +16,66 @@ function App() {
   const [equipment, setEquipment] = useState([]);
   const [editingEquipment, setEditingEquipment] = useState(null);
 
-  // Load equipment from MockAPI
   useEffect(() => {
-    const loadEquipment = async () => {
-      try {
-        const data = await getEquipment();
-
-        console.log("API DATA:", data);
-
-        setEquipment(data);
-      } catch (error) {
-        console.error("Load error:", error);
-        alert("Failed to load equipment.");
-      }
-    };
-
     loadEquipment();
   }, []);
 
-  // Add / Update equipment
-  const handleSubmit = async (equipmentData) => {
+  const loadEquipment = async () => {
     try {
-      // UPDATE
+      const data = await getEquipment();
+      setEquipment(data);
+    } catch (error) {
+      console.error("GET ERROR:", error);
+      alert("Failed to load equipment");
+    }
+  };
+
+  const handleSubmit = async (data) => {
+    try {
       if (editingEquipment) {
-        console.log("EDITING EQUIPMENT:", editingEquipment);
-
-        /*
-          MockAPI ID can normally be:
-          editingEquipment.id
-
-          If id is not available, use equipmentId.
-        */
-        const id =
-          editingEquipment.id ||
-          editingEquipment.equipmentId;
-
-        console.log("UPDATE ID:", id);
-
-        const updatedEquipment = await updateEquipment(
-          id,
-          equipmentData
+        const updatedData = await updateEquipment(
+          editingEquipment.id,
+          data
         );
 
-        console.log(
-          "UPDATED EQUIPMENT:",
-          updatedEquipment
-        );
-
-        setEquipment((prevEquipment) =>
-          prevEquipment.map((item) => {
-            const itemId =
-              item.id || item.equipmentId;
-
-            return itemId === id
-              ? updatedEquipment
-              : item;
-          })
+        setEquipment((prev) =>
+          prev.map((item) =>
+            item.id === editingEquipment.id
+              ? updatedData
+              : item
+          )
         );
 
         setEditingEquipment(null);
 
         alert("Equipment updated successfully!");
+      } else {
+        const newData = await createEquipment(data);
 
-        return;
+        setEquipment((prev) => [...prev, newData]);
+
+        alert("Notification added successfully!");
       }
-
-      // ADD
-      const newEquipment = await createEquipment(
-        equipmentData
-      );
-
-      console.log("NEW EQUIPMENT:", newEquipment);
-
-      setEquipment((prevEquipment) => [
-        ...prevEquipment,
-        newEquipment,
-      ]);
-
-      alert("Equipment added successfully!");
     } catch (error) {
-      console.error("Save error:", error);
-
-      alert(
-        `Failed to save equipment: ${error.message}`
-      );
+      console.error("SAVE ERROR:", error);
+      alert("Failed to save equipment");
     }
   };
 
-  // Edit equipment
   const handleEdit = (item) => {
-    console.log("SELECTED EQUIPMENT:", item);
+    console.log("EDIT ITEM:", item);
 
     setEditingEquipment(item);
 
-    setTimeout(() => {
-      const form = document.getElementById(
-        "add-equipment"
-      );
-
-      if (form) {
-        form.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    }, 100);
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
   };
 
-  // Delete equipment
   const handleDelete = async (id) => {
+    console.log("DELETE ID:", id);
+
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this equipment?"
     );
@@ -136,26 +87,17 @@ function App() {
     try {
       await deleteEquipment(id);
 
-      setEquipment((prevEquipment) =>
-        prevEquipment.filter((item) => {
-          const itemId =
-            item.id || item.equipmentId;
-
-          return itemId !== id;
-        })
+      setEquipment((prev) =>
+        prev.filter((item) => item.id !== id)
       );
 
       alert("Equipment deleted successfully!");
     } catch (error) {
-      console.error("Delete error:", error);
-
-      alert(
-        `Failed to delete equipment: ${error.message}`
-      );
+      console.error("DELETE ERROR:", error);
+      alert("Delete failed");
     }
   };
 
-  // Cancel editing
   const handleCancel = () => {
     setEditingEquipment(null);
   };
@@ -173,14 +115,8 @@ function App() {
       />
 
       <EquipmentForm
-        key={
-          editingEquipment
-            ? editingEquipment.id ||
-              editingEquipment.equipmentId
-            : "new"
-        }
-        onSubmit={handleSubmit}
         editingEquipment={editingEquipment}
+        onSubmit={handleSubmit}
         onCancel={handleCancel}
       />
     </>
