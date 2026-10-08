@@ -37,11 +37,12 @@
 
 .form-group label {
   margin-bottom: 7px;
-  color: black;
+  color: #000000;
   font-size: 14px;
   font-weight: 600;
 }
 
+/* Input and Select */
 .form-group input,
 .form-group select {
   width: 100%;
@@ -51,7 +52,22 @@
   border-radius: 6px;
   font-size: 14px;
   outline: none;
+
+  /* Important for mobile */
+  color: #000000;
+  -webkit-text-fill-color: #000000;
   background-color: #ffffff;
+
+  /* Prevent browser changing the appearance */
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Placeholder text */
+.form-group input::placeholder {
+  color: #777777;
+  opacity: 1;
+  -webkit-text-fill-color: #777777;
 }
 
 .form-group input:focus,
@@ -60,6 +76,7 @@
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
+/* Buttons */
 .form-buttons {
   grid-column: 1 / -1;
   display: flex;
@@ -98,6 +115,7 @@
   background-color: #d1d5db;
 }
 
+/* Mobile */
 @media (max-width: 768px) {
   .equipment-form-section {
     padding: 20px;
@@ -119,5 +137,12 @@
   .submit-btn,
   .cancel-btn {
     width: 100%;
+  }
+
+  .form-group input,
+  .form-group select {
+    color: #000000;
+    -webkit-text-fill-color: #000000;
+    background-color: #ffffff;
   }
 }
