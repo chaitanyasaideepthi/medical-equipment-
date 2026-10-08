@@ -3,13 +3,13 @@ import "./EquipmentForm.css";
 
 function EquipmentForm({ onSubmit, editingEquipment, onCancel }) {
   const [formData, setFormData] = useState({
-    equipmentName: "",
-    equipmentId: "",
-    category: "",
-    quantity: "",
-    location: "",
-    status: "Available",
-    maintenanceDate: "",
+    equipmentName: editingEquipment?.equipmentName || "",
+    equipmentId: editingEquipment?.equipmentId || "",
+    category: editingEquipment?.category || "",
+    quantity: editingEquipment?.quantity || "",
+    location: editingEquipment?.location || "",
+    status: editingEquipment?.status || "Available",
+    maintenanceDate: editingEquipment?.maintenanceDate || "",
   });
 
   const handleChange = (e) => {
@@ -58,9 +58,13 @@ function EquipmentForm({ onSubmit, editingEquipment, onCancel }) {
       maintenanceDate: formData.maintenanceDate,
     };
 
-    await onSubmit(equipmentData);
+    try {
+      await onSubmit(equipmentData);
 
-    resetForm();
+      resetForm();
+    } catch (error) {
+      console.error("Form submit error:", error);
+    }
   };
 
   const handleCancel = () => {
@@ -87,10 +91,7 @@ function EquipmentForm({ onSubmit, editingEquipment, onCancel }) {
             : "Enter the details of the new medical equipment."}
         </p>
 
-        <form
-          className="equipment-form"
-          onSubmit={handleSubmit}
-        >
+        <form className="equipment-form" onSubmit={handleSubmit}>
 
           {/* Equipment Name */}
           <div className="form-group">
@@ -127,33 +128,13 @@ function EquipmentForm({ onSubmit, editingEquipment, onCancel }) {
               value={formData.category}
               onChange={handleChange}
             >
-              <option value="">
-                Select Category
-              </option>
-
-              <option value="Diagnostic">
-                Diagnostic
-              </option>
-
-              <option value="Critical Care">
-                Critical Care
-              </option>
-
-              <option value="Surgical">
-                Surgical
-              </option>
-
-              <option value="Monitoring">
-                Monitoring
-              </option>
-
-              <option value="Laboratory">
-                Laboratory
-              </option>
-
-              <option value="Other">
-                Other
-              </option>
+              <option value="">Select Category</option>
+              <option value="Diagnostic">Diagnostic</option>
+              <option value="Critical Care">Critical Care</option>
+              <option value="Surgical">Surgical</option>
+              <option value="Monitoring">Monitoring</option>
+              <option value="Laboratory">Laboratory</option>
+              <option value="Other">Other</option>
             </select>
           </div>
 
@@ -193,14 +174,8 @@ function EquipmentForm({ onSubmit, editingEquipment, onCancel }) {
               value={formData.status}
               onChange={handleChange}
             >
-              <option value="Available">
-                Available
-              </option>
-
-              <option value="In Use">
-                In Use
-              </option>
-
+              <option value="Available">Available</option>
+              <option value="In Use">In Use</option>
               <option value="Under Maintenance">
                 Under Maintenance
               </option>

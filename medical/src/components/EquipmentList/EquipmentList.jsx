@@ -1,63 +1,53 @@
 import "./EquipmentList.css";
 
-function EquipmentList({
-  equipment,
-  onEdit,
-  onDelete,
-}) {
+function EquipmentList({ equipment, onEdit, onDelete }) {
   return (
-    <section className="equipment-section" id="equipment">
-      <div className="equipment-header">
-        <div>
-          <h2>Medical Equipment</h2>
-          <p>Manage all hospital equipment</p>
-        </div>
-      </div>
+    <section className="equipment-list-section">
+      <div className="equipment-list-container">
 
-      {equipment.length === 0 ? (
-        <div className="no-equipment">
-          <h3>No Equipment Found</h3>
-          <p>No medical equipment is available.</p>
-        </div>
-      ) : (
-        <div className="equipment-table-container">
-          <table className="equipment-table">
-            <thead>
-              <tr>
-                <th>Equipment Name</th>
-                <th>Equipment ID</th>
-                <th>Category</th>
-                <th>Quantity</th>
-                <th>Location</th>
-                <th>Status</th>
-                <th>Maintenance Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
+        <h2>Medical Equipment</h2>
 
-            <tbody>
-              {equipment.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.equipmentName}</td>
-                  <td>{item.equipmentId}</td>
-                  <td>{item.category}</td>
-                  <td>{item.quantity}</td>
-                  <td>{item.location}</td>
+        {equipment.length === 0 ? (
+          <p className="no-equipment">
+            No equipment available
+          </p>
+        ) : (
+          <div className="equipment-table-container">
+            <table className="equipment-table">
 
-                  <td>
-                    <span
-                      className={`status ${item.status
-                        ?.toLowerCase()
-                        .replaceAll(" ", "-")}`}
-                    >
-                      {item.status}
-                    </span>
-                  </td>
+              <thead>
+                <tr>
+                  <th>Equipment Name</th>
+                  <th>Equipment ID</th>
+                  <th>Category</th>
+                  <th>Quantity</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                  <th>Maintenance Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
 
-                  <td>{item.maintenanceDate}</td>
+              <tbody>
+                {equipment.map((item) => (
+                  <tr key={item.id || item.equipmentId}>
 
-                  <td>
-                    <div className="action-buttons">
+                    <td>{item.equipmentName}</td>
+
+                    <td>{item.equipmentId}</td>
+
+                    <td>{item.category}</td>
+
+                    <td>{item.quantity}</td>
+
+                    <td>{item.location}</td>
+
+                    <td>{item.status}</td>
+
+                    <td>{item.maintenanceDate}</td>
+
+                    <td className="action-buttons">
+
                       <button
                         className="edit-btn"
                         onClick={() => onEdit(item)}
@@ -71,14 +61,18 @@ function EquipmentList({
                       >
                         Delete
                       </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+
+                    </td>
+
+                  </tr>
+                ))}
+              </tbody>
+
+            </table>
+          </div>
+        )}
+
+      </div>
     </section>
   );
 }
